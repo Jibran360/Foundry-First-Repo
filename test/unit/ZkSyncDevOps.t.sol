@@ -27,8 +27,14 @@ contract ZkSyncDevOps is Test, ZkSyncChainChecker, FoundryZkSyncChecker {
     // // Remove the `onlyVanillaFoundry`, then run `foundryup-zksync` and then
     // // `forge test --mt testZkSyncFoundryFails --zksync`
     // // and this will fail!
-    //function testZkSyncFoundryFails() public onlyVanillaFoundry {
-    //    bool exists = vm.keyExistsJson('{"hi": "true"}', ".hi");
-    //    assert(exists);
-    //}
+    function testZkSyncFoundryFails() public onlyVanillaFoundry {
+        // Expect the modifier to revert if the Forge version is unknown
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                FoundryZkSyncChecker__UnknownFoundryVersion.selector
+            )
+        );
+        bool exists = vm.keyExistsJson('{"hi": "true"}', ".hi");
+        assert(exists);
+    }
 }
