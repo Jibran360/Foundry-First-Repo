@@ -70,4 +70,4 @@ $ cast --help
 ## PIT STOP!
 1. How to make running these scripts easire??
 
-### Programatic Verificaiton
+### Programatic Verificaiton ✅
