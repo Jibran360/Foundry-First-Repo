@@ -23,7 +23,7 @@ contract IntegrationsTest is Test {
     function setUp() external {
         // we want to use the real price feed contract on Sepolia, so we don't need to do anything here
         DeployFundMe deployFundMe = new DeployFundMe();
-        (fundMe, ) = deployFundMe.run();
+        (fundMe,) = deployFundMe.run();
         vm.deal(USER, STARTING_BALANCE);
     }
 

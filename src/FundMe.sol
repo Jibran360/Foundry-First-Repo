@@ -55,10 +55,7 @@ contract FundMe {
 
     /// @notice Funds our contract based on the ETH/USD price
     function fund() public payable {
-        require(
-            msg.value.getConversionRate(s_PriceFeed) >= MINIMUM_USD,
-            "You need to spend more ETH!"
-        );
+        require(msg.value.getConversionRate(s_PriceFeed) >= MINIMUM_USD, "You need to spend more ETH!");
         // require(PriceConverter.getConversionRate(msg.value) >= MINIMUM_USD, "You need to spend more ETH!");
         s_AddressToAmountFunded[msg.sender] += msg.value;
         s_Funders.push(msg.sender);
@@ -67,35 +64,27 @@ contract FundMe {
     // aderyn-ignore-next-line(centralization-risk,unused-public-function,state-change-without-event))
     function withdraw() public onlyOwner {
         // aderyn-ignore-next-line(storage-array-length-not-cached,costly-loop)
-        for (
-            uint256 funderIndex = 0;
-            funderIndex < s_Funders.length;
-            funderIndex++
-        ) {
+        for (uint256 funderIndex = 0; funderIndex < s_Funders.length; funderIndex++) {
             address funder = s_Funders[funderIndex];
             s_AddressToAmountFunded[funder] = 0;
         }
         s_Funders = new address[](0);
         // Transfer vs call vs Send
         // payable(msg.sender).transfer(address(this).balance);
-        (bool success, ) = I_OWNER.call{value: address(this).balance}("");
+        (bool success,) = I_OWNER.call{value: address(this).balance}("");
         require(success);
     }
 
     function cheaperWithdraw() public onlyOwner {
         address[] memory funders = s_Funders;
         // mappings can't be in memory, sorry!
-        for (
-            uint256 funderIndex = 0;
-            funderIndex < funders.length;
-            funderIndex++
-        ) {
+        for (uint256 funderIndex = 0; funderIndex < funders.length; funderIndex++) {
             address funder = funders[funderIndex];
             s_AddressToAmountFunded[funder] = 0;
         }
         s_Funders = new address[](0);
         // payable(msg.sender).transfer(address(this).balance);
-        (bool success, ) = I_OWNER.call{value: address(this).balance}("");
+        (bool success,) = I_OWNER.call{value: address(this).balance}("");
         require(success);
     }
 
@@ -108,9 +97,7 @@ contract FundMe {
      *  @param fundingAddress the address of the funder
      *  @return the amount funded
      */
-    function getAddressToAmountFunded(
-        address fundingAddress
-    ) public view returns (uint256) {
+    function getAddressToAmountFunded(address fundingAddress) public view returns (uint256) {
         return s_AddressToAmountFunded[fundingAddress];
     }
 

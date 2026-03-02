@@ -16,10 +16,7 @@ contract FundFundME is Script {
     }
 
     function run() external {
-        address mostRecnetlyDeployed = DevOpsTools.get_most_recent_deployment(
-            "FundMe",
-            block.chainid
-        );
+        address mostRecnetlyDeployed = DevOpsTools.get_most_recent_deployment("FundMe", block.chainid);
         vm.startBroadcast();
         FundFundME(mostRecnetlyDeployed);
         vm.stopBroadcast();
@@ -37,10 +34,7 @@ contract WithdrawFundME is Script {
     }
 
     function run() external {
-        address mostRecnetlyDeployed = DevOpsTools.get_most_recent_deployment(
-            "FundMe",
-            block.chainid
-        );
+        address mostRecnetlyDeployed = DevOpsTools.get_most_recent_deployment("FundMe", block.chainid);
         vm.startBroadcast();
         WithdrawFundME(mostRecnetlyDeployed);
         vm.stopBroadcast();

@@ -22,10 +22,7 @@ contract FundMeTest is Test {
     //uint256 constant GAS_PRICE = 1;
 
     function setUp() external {
-        MockV3Aggregator mockPriceFeed = new MockV3Aggregator(
-            DECIMALS,
-            INITIAL_PRICE
-        );
+        MockV3Aggregator mockPriceFeed = new MockV3Aggregator(DECIMALS, INITIAL_PRICE);
 
         fundMe = new FundMe(address(mockPriceFeed));
     }
@@ -98,10 +95,7 @@ contract FundMeTest is Test {
         uint256 endingOwnerBalance = fundMe.getOwner().balance;
         uint256 endingFundMeBalance = address(fundMe).balance;
         assertEq(endingFundMeBalance, 0);
-        assertEq(
-            startingOwnerBalance + startingFundMeBalance,
-            endingOwnerBalance
-        );
+        assertEq(startingOwnerBalance + startingFundMeBalance, endingOwnerBalance);
     }
 
     function testWithdrawFromMultipleFunders() public funded {
@@ -110,11 +104,7 @@ contract FundMeTest is Test {
 
         uint256 originalFundMeBalance = address(fundMe).balance; // This is for people running forked tests!
 
-        for (
-            uint160 i = startingFunderIndex;
-            i < numberOfFunders + startingFunderIndex;
-            i++
-        ) {
+        for (uint160 i = startingFunderIndex; i < numberOfFunders + startingFunderIndex; i++) {
             // we get hoax from stdcheats
             // prank + deal
             hoax(address(i), SEND_VALUE);
@@ -129,15 +119,10 @@ contract FundMeTest is Test {
         vm.stopPrank();
 
         assert(address(fundMe).balance == 0);
-        assert(
-            startingFundedeBalance + startingOwnerBalance ==
-                fundMe.getOwner().balance
-        );
+        assert(startingFundedeBalance + startingOwnerBalance == fundMe.getOwner().balance);
 
-        uint256 expectedTotalValueWithdrawn = ((numberOfFunders) * SEND_VALUE) +
-            originalFundMeBalance;
-        uint256 totalValueWithdrawn = fundMe.getOwner().balance -
-            startingOwnerBalance;
+        uint256 expectedTotalValueWithdrawn = ((numberOfFunders) * SEND_VALUE) + originalFundMeBalance;
+        uint256 totalValueWithdrawn = fundMe.getOwner().balance - startingOwnerBalance;
 
         assert(expectedTotalValueWithdrawn == totalValueWithdrawn);
     }
@@ -148,11 +133,7 @@ contract FundMeTest is Test {
 
         uint256 originalFundMeBalance = address(fundMe).balance; // This is for people running forked tests!
 
-        for (
-            uint160 i = startingFunderIndex;
-            i < numberOfFunders + startingFunderIndex;
-            i++
-        ) {
+        for (uint160 i = startingFunderIndex; i < numberOfFunders + startingFunderIndex; i++) {
             // we get hoax from stdcheats
             // prank + deal
             hoax(address(i), SEND_VALUE);
@@ -167,15 +148,10 @@ contract FundMeTest is Test {
         vm.stopPrank();
 
         assert(address(fundMe).balance == 0);
-        assert(
-            startingFundedeBalance + startingOwnerBalance ==
-                fundMe.getOwner().balance
-        );
+        assert(startingFundedeBalance + startingOwnerBalance == fundMe.getOwner().balance);
 
-        uint256 expectedTotalValueWithdrawn = ((numberOfFunders) * SEND_VALUE) +
-            originalFundMeBalance;
-        uint256 totalValueWithdrawn = fundMe.getOwner().balance -
-            startingOwnerBalance;
+        uint256 expectedTotalValueWithdrawn = ((numberOfFunders) * SEND_VALUE) + originalFundMeBalance;
+        uint256 totalValueWithdrawn = fundMe.getOwner().balance - startingOwnerBalance;
 
         assert(expectedTotalValueWithdrawn == totalValueWithdrawn);
     }
