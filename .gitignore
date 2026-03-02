@@ -17,4 +17,4 @@ docs/
 zkout/
 
 broadcast/
-lib/
+lib/.vscode/
